@@ -64,7 +64,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Image src='/logo.png' alt="Logo" width={40} height={40} className="w-10 h-10" />
             <div>
               <h1 className="text-lg font-semibold">EduScope</h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Student Portal</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Future-Ready Guidance, Powered by AI.</p>
             </div>
           </div>
           <Button onClick={() => setSidebarOpen(!sidebarOpen)} variant="ghost" size="sm">
@@ -82,10 +82,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div className="p-6 border-b border-gray-300 dark:border-[#1c293f] transition-all">
           <div className="flex items-center gap-3">
-            <Image src='/logo.png' alt="Logo" width={40} height={40} className="w-10 h-10" />
+            <Image src='/logo.png' alt="Logo" width={40} height={40} className="w-16 h-16" />
             <div>
               <h1 className="text-xl font-semibold">EduScope</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Student Portal</p>
+              <p className="text-xs mt-1 font-medium text-gray-500/50 dark:text-gray-400/60">Future Ready Guidance, <br /> Powered by AI.</p>
             </div>
           </div>
         </div>
