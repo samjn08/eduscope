@@ -6,14 +6,17 @@ import { Brain, Briefcase, Trophy, Crown } from "lucide-react";
 
 import DashboardStats, { Stats } from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
-import QuickActions from "@/components/dashboard/QuickActions"; 
+import QuickActions from "@/components/dashboard/QuickActions";
 import { getApplications, getDashboardStats, getTests, getUser } from "@/app/server/db";
 import { Application, Test, User } from "@prisma/client";
 
-// Skeleton loaders
+// Skeletons — now theme-aware
 function SkeletonCard({ height = 20, width = 'full', className = '' }) {
   return (
-    <div className={`bg-gray-700 rounded animate-pulse ${className}`} style={{ height, width }} />
+    <div
+      className={`rounded-md animate-pulse bg-gray-300 dark:bg-gray-700 ${className}`}
+      style={{ height, width }}
+    />
   );
 }
 
@@ -48,14 +51,13 @@ export default function Dashboard() {
       const applications = await getApplications(5);
 
       setStats({
-  totalTests: dashboardData?.totalTests ?? 0,
-  completedTests: dashboardData?.completedTests ?? 0,
-  avgScore: dashboardData?.avgScore?.toFixed(1) ?? "0.0",
-  totalResumes: dashboardData?.totalResumes ?? 0,
-  totalApplications: dashboardData?.totalApplications ?? 0,
-  pendingFollowups: dashboardData?.pendingFollowups ?? 0,
-});
-
+        totalTests: dashboardData?.totalTests ?? 0,
+        completedTests: dashboardData?.completedTests ?? 0,
+        avgScore: dashboardData?.avgScore?.toFixed(1) ?? "0.0",
+        totalResumes: dashboardData?.totalResumes ?? 0,
+        totalApplications: dashboardData?.totalApplications ?? 0,
+        pendingFollowups: dashboardData?.pendingFollowups ?? 0,
+      });
 
       setRecentTests(tests);
       setRecentApps(applications);
@@ -65,76 +67,90 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#091222] p-6 space-y-8 text-gray-200">
+    <div className="min-h-screen p-6 space-y-8 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-[#091222] transition-colors">
 
-      {/* Hero Section */}
-      <div className="text-center space-y-3 py-8">
-        <div className="flex justify-center mb-3">
-          <div className="w-14 h-14 bg-[#0c1426] rounded-xl flex items-center justify-center ring-1 ring-[#4d8aff]">
-            <Trophy className="w-7 h-7 text-[#4d8aff]" />
-          </div>
+      {/* Hero */}
+      <div className="text-center space-y-2 py-6 md:py-8">
+  {/* Icon */}
+  <div className="flex justify-center mb-4">
+    <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center ring-2 ring-[#4d8aff] bg-gray-100 dark:bg-[#0c1426]">
+      <Trophy className="w-6 h-6 md:w-7 md:h-7 text-[#4d8aff]" />
+    </div>
+  </div>
+
+  {/* Heading */}
+  <h1 className="text-2xl md:text-3xl font-bold md:font-semibold tracking-tight text-gray-900 dark:text-white">
+    Welcome to EduScope
+  </h1>
+
+  {/* Subtext */}
+  <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
+    Your platform for placement preparation featuring AI-powered mock tests, resume optimization, and application tracking.
+  </p>
+</div>
+
+
+      {/* User Card */}
+{user ? (
+  <Card className="shadow-xl border border-gray-200 dark:border-[#1c293f] bg-white dark:bg-[#0e182e] rounded-2xl transition-colors">
+    <CardContent className="p-6 md:p-8">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        {/* User Info */}
+        <div className="flex-1 space-y-3">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-snug">
+            Welcome back, <span className="text-[#4d8aff]">Samarth!</span>
+          </h2>
+          <p className="inline-block text-sm md:text-base text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-[#132040] px-4 py-2 rounded-xl font-medium tracking-wide shadow-sm">
+            CSE • 2026 • GGSIPU
+          </p>
         </div>
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white">
-          Welcome to EduScope
-        </h1>
-        <p className="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
-          Your platform for placement preparation featuring AI-powered mock tests, <br /> resume optimization, and application tracking.
-        </p>
-      </div>
 
-      {/* User Welcome Card */}
-      {user ? (
-        <Card className="border border-[#1c293f] shadow-xl bg-[#0e182e] hover:shadow-2xl transition-shadow duration-300">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="flex-1 space-y-1">
-                <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                  Welcome back, <span className="text-[#4d8aff]">Samarth</span> </h2> <p className="text-s mt-3 text-gray-400"> CSE • 2026 • GGSIPU </p>
-              </div>
-              {user.subscription !== 'pro' && (
-                <div className="flex-shrink-0">
-                  <Button className="bg-gradient-to-r from-[#4d8aff] to-[#22c55e] hover:from-[#3c6dd6] hover:to-[#16a34a] text-white font-semibold rounded-lg shadow-lg flex items-center gap-2 px-5 py-3 transition-transform duration-200 hover:scale-105">
-                    <Crown className="w-5 h-5" />
-                    Upgrade to Pro
-                  </Button>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <SkeletonCard height={120} />
-      )}
+        {/* Upgrade Button */}
+        {user.subscription !== "pro" && (
+          <Button className="bg-gradient-to-r from-[#4d8aff] to-[#22c55e] hover:from-[#3c6dd6] hover:to-[#16a34a] text-white font-semibold rounded-xl shadow-lg flex items-center gap-3 px-6 py-3 transition-transform hover:scale-105 hover:shadow-2xl">
+            <Crown className="w-5 h-5" />
+            Upgrade to Pro
+          </Button>
+        )}
+
+      </div>
+    </CardContent>
+  </Card>
+) : (
+  <SkeletonCard height={140} />
+)}
+
 
       {/* Quick Actions */}
       {user ? <QuickActions userType={user.subscription} /> : <SkeletonGrid count={2} />}
 
-      {/* Stats Grid */}
+      {/* Stats */}
       {stats ? <DashboardStats stats={stats} /> : <SkeletonGrid count={3} />}
 
-      {/* Recent Activity */}
+      {/* Recent Data */}
       <div className="grid lg:grid-cols-2 gap-6">
         {recentTests ? (
-          <RecentActivity 
+          <RecentActivity
             title="Recent Mock Tests"
             items={recentTests}
             type="tests"
             emptyMessage="No tests taken yet"
             icon={Brain}
-            className="bg-[#0e182e] border border-[#1c293f] shadow-xl"
+            className="shadow-lg bg-white dark:bg-[#0e182e] border-gray-300 dark:border-[#1c293f]"
           />
         ) : (
           <SkeletonGrid count={1} />
         )}
 
         {recentApps ? (
-          <RecentActivity 
+          <RecentActivity
             title="Recent Applications"
             items={recentApps}
             type="applications"
             emptyMessage="No applications yet"
             icon={Briefcase}
-            className="bg-[#0e182e] border border-[#1c293f] shadow-xl"
+            className="shadow-lg bg-white dark:bg-[#0e182e] border-gray-300 dark:border-[#1c293f]"
           />
         ) : (
           <SkeletonGrid count={1} />

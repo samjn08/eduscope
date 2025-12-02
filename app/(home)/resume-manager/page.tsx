@@ -41,18 +41,23 @@ function Page() {
       // Upload file to R2 via PUT
       const resp = await fetch(url, {
         method: 'PUT',
-        body: file
+        body: file,
+         headers: {
+    'Content-Type': file.type
+  }
       })
 
-      if (!resp.ok) throw new Error('Upload failed')
+      if (!resp.ok) {
+  console.error('Upload failed with status:', resp.status)
+  throw new Error('Upload failed')
+}
 
       // Generate shareable link
       const filePath = url.split('/').slice(3).join('/').split('?')[0]
-      const share_link = `https://prepapp.vinucode.in/${filePath}`
+      const share_link = `https://educope.online/${filePath}`
 
       // Analyze and store resume
-      const analysis = await AnalyzeAndStoreResume(share_link, targetRole, file.name)
-      console.log('Resume analyzed:', analysis)
+      await AnalyzeAndStoreResume(share_link, targetRole, file.name)
 
       loadResumes()
       setShowUpload(false)
@@ -66,25 +71,29 @@ function Page() {
   }, [])
 
   return (
-    <main className="flex flex-col text-zinc-900 p-4 md:p-8 space-y-8">
+    <main className="flex flex-col p-4 md:p-8 space-y-8 bg-gray-100 text-gray-900 dark:bg-[#091222] dark:text-white min-h-screen">
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-2">
-          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight text-gray-100">
+          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight">
             Resume Manager
           </h1>
-          <p className="text-sm text-gray-400">ATS scoring, version history & easy sharing</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            ATS scoring, version history & easy sharing
+          </p>
         </div>
 
         <div className="flex gap-3">
           <Button
-  onClick={() => setShowUpload(true)}
-  className="bg-gray-800 border border-gray-700 hover:border-gray-600 text-white font-medium rounded-md shadow-sm hover:shadow transition-colors flex items-center"
->
-  <Upload className="w-4 h-4 mr-2 text-white" />
-  Upload Resume
-</Button>
-
+            onClick={() => setShowUpload(true)}
+            className="bg-gray-800 dark:bg-gray-700 border border-gray-700 dark:border-gray-600 
+                       hover:border-gray-600 dark:hover:border-gray-500 text-white font-medium 
+                       rounded-md shadow-sm hover:shadow transition-colors flex items-center"
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Upload Resume
+          </Button>
         </div>
       </div>
 
@@ -96,47 +105,48 @@ function Page() {
         />
       )}
 
+      {/* Resume List / Skeleton */}
       {loading ? (
-  <div className="flex flex-col gap-6 mt-6 w-full">
-    {[1, 2, 3].map((i) => (
-      <div
-        key={i}
-        className="animate-pulse bg-gray-700 rounded-xl p-6 shadow-sm w-full flex flex-col md:flex-row justify-between gap-6"
-      >
-        <div className="flex-1 flex flex-col gap-4">
-          {/* Header skeleton */}
-          <div className="flex items-start gap-4 w-full">
-            <div className="h-12 w-12 bg-gray-600 rounded-lg flex-shrink-0"></div>
-            <div className="flex-1 space-y-2 w-full">
-              <div className="h-4 bg-gray-600 rounded w-1/3"></div>
-              <div className="h-3 bg-gray-600 rounded w-1/4"></div>
-              <div className="h-3 bg-gray-600 rounded w-1/5"></div>
+        <div className="flex flex-col gap-6 mt-6 w-full">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="animate-pulse rounded-xl p-6 shadow-sm w-full flex flex-col md:flex-row 
+                         justify-between gap-6 bg-gray-200 dark:bg-[#0c1426]"
+            >
+              <div className="flex-1 flex flex-col gap-4">
+                {/* Header skeleton */}
+                <div className="flex items-start gap-4 w-full">
+                  <div className="h-12 w-12 bg-gray-400 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
+                  <div className="flex-1 space-y-2 w-full">
+                    <div className="h-4 bg-gray-400 dark:bg-gray-600 rounded w-1/3"></div>
+                    <div className="h-3 bg-gray-400 dark:bg-gray-600 rounded w-1/4"></div>
+                    <div className="h-3 bg-gray-400 dark:bg-gray-600 rounded w-1/5"></div>
+                  </div>
+                </div>
+
+                {/* ATS score skeleton */}
+                <div className="h-12 bg-gray-400 dark:bg-gray-600 rounded-lg w-full md:w-1/3"></div>
+
+                {/* Strengths / Weaknesses / Suggestions skeleton */}
+                <div className="space-y-2 w-full">
+                  <div className="h-10 bg-gray-400 dark:bg-gray-600 rounded-lg w-full"></div>
+                  <div className="h-10 bg-gray-400 dark:bg-gray-600 rounded-lg w-full"></div>
+                  <div className="h-10 bg-gray-400 dark:bg-gray-600 rounded-lg w-full"></div>
+                </div>
+              </div>
+
+              {/* Actions skeleton */}
+              <div className="flex flex-row md:flex-col gap-3 w-full md:w-40 mt-4 md:mt-0">
+                <div className="h-10 bg-gray-400 dark:bg-gray-600 rounded-md w-full"></div>
+                <div className="h-10 bg-gray-400 dark:bg-gray-600 rounded-md w-full"></div>
+              </div>
             </div>
-          </div>
-
-          {/* ATS score skeleton */}
-          <div className="h-12 bg-gray-600 rounded-lg w-full md:w-1/3"></div>
-
-          {/* Strengths / Weaknesses / Suggestions skeleton */}
-          <div className="space-y-2 w-full">
-            <div className="h-10 bg-gray-600 rounded-lg w-full"></div>
-            <div className="h-10 bg-gray-600 rounded-lg w-full"></div>
-            <div className="h-10 bg-gray-600 rounded-lg w-full"></div>
-          </div>
+          ))}
         </div>
-
-        {/* Actions skeleton */}
-        <div className="flex flex-row md:flex-col gap-3 w-full md:w-40 mt-4 md:mt-0">
-          <div className="h-10 bg-gray-600 rounded-md w-full"></div>
-          <div className="h-10 bg-gray-600 rounded-md w-full"></div>
-        </div>
-      </div>
-    ))}
-  </div>
-) : (
-  <ResumeList resumes={resumes} />
-)}
-
+      ) : (
+        <ResumeList resumes={resumes} />
+      )}
 
     </main>
   )

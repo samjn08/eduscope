@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Target, Zap } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import TestCreator, { TestConfig } from "@/components/test/TestCreator";
 import TestList from "@/components/test/TestList";
 import TestInterface, { TestResults } from "@/components/test/TestInterface";
@@ -11,22 +11,25 @@ import { generateMocktest } from "@/app/server/ai";
 import { Test } from "@prisma/client";
 import { getCurrentUser, getMockTests, updateTest } from "@/app/server/db";
 import { User } from "@supabase/supabase-js";
-import { redirect } from "next/navigation";
 
 function SkeletonRow() {
   return (
-    <div className="animate-pulse flex items-center justify-between bg-[#0c1426] border border-[#1c293f] rounded-lg shadow-sm p-4 mb-3">
+    <div className="animate-pulse flex items-center justify-between 
+      bg-[#f3f4f6] dark:bg-[#0c1426] 
+      border border-gray-200 dark:border-[#1c293f] 
+      rounded-lg shadow-sm p-4 mb-3"
+    >
       <div className="flex-1 space-y-2">
-        <div className="h-4 bg-gray-700 rounded w-3/4"></div>
-        <div className="h-3 bg-gray-700 rounded w-1/2"></div>
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+        <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
       </div>
-      <div className="w-12 h-4 bg-gray-700 rounded ml-4"></div>
+      <div className="w-12 h-4 bg-gray-300 dark:bg-gray-700 rounded ml-4"></div>
     </div>
   );
 }
 
-
 export default function MockTests() {
+  const router = useRouter();
   const [tests, setTests] = useState<Test[] | null>(null);
   const [activeTest, setActiveTest] = useState<Test | null>(null);
   const [showCreator, setShowCreator] = useState(false);
@@ -100,14 +103,19 @@ export default function MockTests() {
   }
 
   return (
-    <div className="p-6 space-y-8 bg-[#091222] min-h-screen text-white">
+    <div className="
+      p-6 space-y-8 
+      bg-gray-100 text-gray-900 
+      dark:bg-[#091222] dark:text-white 
+      min-h-screen"
+    >
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
             Mock Tests
           </h1>
-          <p className="text-gray-300 text-sm md:text-base">
+          <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
             AI-powered practice tests with adaptive difficulty and detailed analytics
           </p>
         </div>
@@ -131,44 +139,49 @@ export default function MockTests() {
         />
       )}
 
-      {/* Tests List */}
-<div ref={listRef}>
-  {tests === null ? (
-    <div className="space-y-3">
-      <SkeletonRow />
-      <SkeletonRow />
-      <SkeletonRow />
-    </div>
-  ) : (
-    <TestList
-      tests={tests}
-      onStartTest={startTest}
-      onViewResults={(test: Test) => redirect(`/mock-tests/${test.id}`)}
-    />
-  )}
-</div>
-
+      {/* Test List */}
+      <div ref={listRef}>
+        {tests === null ? (
+          <div className="space-y-3">
+            <SkeletonRow />
+            <SkeletonRow />
+            <SkeletonRow />
+          </div>
+        ) : (
+          <TestList
+            tests={tests}
+            onStartTest={startTest}
+            onViewResults={(test: Test) => router.push(`/mock-tests/${test.id}`)}
+          />
+        )}
+      </div>
 
       {/* Pro Upsell */}
       {user?.user_metadata.subscription_status !== "pro" && (
         <div className="flex justify-center">
-          <Card className="bg-[#1b0f3b52] border border-[#3e1a6b] shadow-lg hover:shadow-xl transition-all duration-200 w-full">
+          <Card className="
+            w-full transition-all duration-200 
+            bg-purple-100 dark:bg-[#1b0f3b52] 
+            border border-purple-300 dark:border-[#3e1a6b]
+            shadow-md hover:shadow-lg"
+          >
             <CardContent className="p-6 text-center">
               <div className="space-y-4 flex flex-col items-center">
-                <div className="flex justify-center">
-                  <div className="w-14 h-14 bg-[#3e1a6b] rounded-xl flex items-center justify-center ring-1 ring-purple-400">
-                    <Zap className="w-6 h-6 text-purple-300" />
-                  </div>
+                <div className="w-14 h-14 bg-purple-200 dark:bg-[#3e1a6b] 
+                  rounded-xl flex items-center justify-center 
+                  ring-1 ring-purple-400 dark:ring-purple-500"
+                >
+                  <Zap className="w-6 h-6 text-purple-600 dark:text-purple-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white text-center">
+                <h3 className="text-xl font-bold dark:text-white">
                   Unlock Unlimited Tests
                 </h3>
-                <p className="text-gray-300 text-center">
+                <p className="text-gray-700 dark:text-gray-300">
                   Get unlimited AI-generated mock tests with detailed analytics and performance tracking.
                 </p>
-                <Button
-                  variant="secondary"
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-md shadow-md hover:shadow-lg flex items-center justify-center"
+                <Button className="
+                  bg-purple-600 hover:bg-purple-700 
+                  text-white font-semibold shadow-md hover:shadow-lg"
                 >
                   <Target className="w-4 h-4 mr-2" />
                   Upgrade to Pro

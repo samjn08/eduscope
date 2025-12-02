@@ -4,10 +4,9 @@ import { Application } from "@prisma/client";
 
 interface Props {
   applications: Application[];
-  darkMode?: boolean;
 }
 
-export default function ApplicationStats({ applications, darkMode }: Props) {
+export default function ApplicationStats({ applications }: Props) {
   const stats = {
     total: applications.length,
     applied: applications.filter(a => a.status === 'applied').length,
@@ -24,50 +23,50 @@ export default function ApplicationStats({ applications, darkMode }: Props) {
       title: "Total Applications",
       value: stats.total,
       icon: Building,
-      color: darkMode
-        ? "bg-gray-800 border-gray-700 text-gray-100"
-        : "bg-blue-50 border-blue-200 text-blue-700"
+      bg: "bg-blue-50 dark:bg-gray-800",
+      border: "border-blue-200 dark:border-gray-700",
+      text: "text-blue-700 dark:text-gray-100",
     },
     {
       title: "Applied",
       value: stats.applied,
       icon: Clock,
-      color: darkMode
-        ? "bg-yellow-900/30 border-yellow-700 text-yellow-300"
-        : "bg-amber-50 border-amber-200 text-amber-700"
+      bg: "bg-amber-50 dark:bg-yellow-900/30",
+      border: "border-amber-200 dark:border-yellow-700",
+      text: "text-amber-700 dark:text-yellow-300",
     },
     {
       title: "Interviews",
       value: stats.interviews,
       icon: Calendar,
-      color: darkMode
-        ? "bg-purple-900/30 border-purple-700 text-purple-300"
-        : "bg-purple-50 border-purple-200 text-purple-700"
+      bg: "bg-purple-50 dark:bg-purple-900/30",
+      border: "border-purple-200 dark:border-purple-700",
+      text: "text-purple-700 dark:text-purple-300",
     },
     {
       title: "Offers",
       value: stats.offers,
       icon: Trophy,
-      color: darkMode
-        ? "bg-green-900/30 border-green-700 text-green-300"
-        : "bg-emerald-50 border-emerald-200 text-emerald-700"
+      bg: "bg-emerald-50 dark:bg-green-900/30",
+      border: "border-emerald-200 dark:border-green-700",
+      text: "text-emerald-700 dark:text-green-300",
     },
     {
       title: "Rejected",
       value: stats.rejected,
       icon: XCircle,
-      color: darkMode
-        ? "bg-red-900/30 border-red-700 text-red-300"
-        : "bg-rose-50 border-rose-200 text-rose-700"
+      bg: "bg-rose-50 dark:bg-red-900/30",
+      border: "border-rose-200 dark:border-red-700",
+      text: "text-rose-700 dark:text-red-300",
     },
     {
       title: "Follow-ups Due",
       value: stats.pending_followups,
       icon: CheckCircle,
-      color: darkMode
-        ? "bg-orange-900/30 border-orange-700 text-orange-300"
-        : "bg-orange-50 border-orange-200 text-orange-700"
-    }
+      bg: "bg-orange-50 dark:bg-orange-900/30",
+      border: "border-orange-200 dark:border-orange-700",
+      text: "text-orange-700 dark:text-orange-300",
+    },
   ];
 
   return (
@@ -75,12 +74,12 @@ export default function ApplicationStats({ applications, darkMode }: Props) {
       {statItems.map((stat) => (
         <div
           key={stat.title}
-          className={`${stat.color} border rounded-lg p-4 transition-all duration-200 hover:shadow-md`}
+          className={`${stat.bg} ${stat.border} border rounded-lg p-4 transition-all duration-200 hover:shadow-md`}
         >
           <div className="flex flex-col items-center text-center space-y-2">
-            <stat.icon className="w-5 h-5" />
-            <div className="text-2xl font-bold">{stat.value}</div>
-            <div className="text-xs font-medium tracking-wide">{stat.title}</div>
+            <stat.icon className={`w-5 h-5 ${stat.text}`} />
+            <div className={`text-2xl font-bold ${stat.text}`}>{stat.value}</div>
+            <div className={`text-xs font-medium tracking-wide ${stat.text}`}>{stat.title}</div>
           </div>
         </div>
       ))}

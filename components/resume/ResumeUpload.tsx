@@ -56,35 +56,34 @@ function ResumeUpload({ onUpload, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-gray-900 w-full max-w-xl rounded-xl shadow-xl border border-gray-700">
+      <div className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white w-full max-w-xl rounded-xl shadow-xl border border-gray-300 dark:border-gray-700">
         {/* Header */}
-        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-700">
+        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-300 dark:border-gray-700">
           <div className="flex items-center gap-2">
-            <Upload className="w-5 h-5 text-blue-400" />
-            <h2 className="text-lg font-semibold tracking-tight text-white">Upload Resume</h2>
+            <Upload className="w-5 h-5 text-blue-500" />
+            <h2 className="text-lg font-semibold tracking-tight">Upload Resume</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-md hover:bg-white/10 transition-colors"
+            className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
             aria-label="Close upload dialog"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="px-6 py-6 space-y-6">
           {/* Target Role */}
           <div>
-            <Label className="text-sm font-medium text-gray-300 flex items-center gap-2">
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
               <Target className="w-4 h-4 text-gray-400" /> Target Role
             </Label>
             <Input
-  placeholder="e.g. Frontend Engineer, Data Analyst"
-  value={targetRole}
-  onChange={(e) => setTargetRole(e.target.value)}
-  className="mt-2 !border !border-gray-700 !bg-gray-800 !text-white focus:!ring-1 focus:!ring-blue-500"
-/>
-
+              placeholder="e.g. Frontend Engineer, Data Analyst"
+              value={targetRole}
+              onChange={(e) => setTargetRole(e.target.value)}
+              className="mt-2 !border !border-gray-300 dark:!border-gray-700 !bg-gray-100 dark:!bg-gray-800 !text-gray-900 dark:!text-white focus:!ring-1 focus:!ring-blue-500"
+            />
           </div>
 
           {/* File Dropzone */}
@@ -93,11 +92,11 @@ function ResumeUpload({ onUpload, onClose }: Props) {
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
-            className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${
-              dragActive
-                ? 'border-blue-500 bg-blue-900/30 shadow-md scale-[1.01]'
-                : 'border-gray-700 hover:border-blue-500 hover:bg-blue-900/20'
-            }`}
+            className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300
+              ${dragActive
+                ? 'border-blue-500 bg-blue-200/30 dark:bg-blue-900/30 shadow-md scale-[1.01]'
+                : 'border-gray-300 dark:border-gray-700 hover:border-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/20'
+              }`}
           >
             <input
               ref={fileInputRef}
@@ -117,9 +116,9 @@ function ResumeUpload({ onUpload, onClose }: Props) {
 
             {!file && (
               <>
-                <FileText className="w-16 h-16 mx-auto mb-5 text-blue-400" />
-                <p className="text-base font-medium text-gray-200 mb-3">Drag & drop your PDF resume</p>
-                <p className="text-xs text-gray-400 mb-4 tracking-wide">or choose a file from your device</p>
+                <FileText className="w-16 h-16 mx-auto mb-5 text-blue-500" />
+                <p className="text-base font-medium mb-3">Drag & drop your PDF resume</p>
+                <p className="text-xs mb-4 tracking-wide text-gray-600 dark:text-gray-400">or choose a file from your device</p>
                 <Button
                   type="button"
                   onClick={handleFilePick}
@@ -127,23 +126,23 @@ function ResumeUpload({ onUpload, onClose }: Props) {
                 >
                   <Upload className="w-4 h-4 mr-2" /> Choose File
                 </Button>
-                <p className="text-xs text-gray-500 mt-4">PDF only • Max ~5MB recommended</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">PDF only • Max ~5MB recommended</p>
               </>
             )}
 
             {file && (
               <div className="space-y-3">
-                <div className="flex items-center justify-center gap-2 text-green-400">
+                <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400">
                   <CheckCircle2 className="w-5 h-5" />
                   <span className="text-sm font-semibold">File ready</span>
                 </div>
-                <div className="text-sm bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-left shadow-sm">
-                  <p className="font-medium text-white break-all flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-blue-400" /> {file.name}
+                <div className="text-sm bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-left shadow-sm">
+                  <p className="font-medium break-all flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-blue-500" /> {file.name}
                   </p>
-                  <p className="text-xs text-gray-400 mt-1 flex gap-3">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex gap-3">
                     <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                    <span className="text-gray-500">•</span>
+                    <span className="text-gray-400 dark:text-gray-500">•</span>
                     <span>PDF</span>
                   </p>
                 </div>
@@ -152,14 +151,14 @@ function ResumeUpload({ onUpload, onClose }: Props) {
                     type="button"
                     variant="outline"
                     onClick={handleFilePick}
-                    className="border-gray-600 hover:border-gray-500 hover:text-gray-300"
+                    className="border-gray-400 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   >
                     Change
                   </Button>
                   <Button
                     type="button"
                     onClick={() => setFile(null)}
-                    className="bg-red-700 text-red-200 hover:bg-red-600 font-medium border border-red-600"
+                    className="bg-red-600 dark:bg-red-700 text-white dark:text-red-200 hover:bg-red-500 dark:hover:bg-red-600 font-medium border border-red-700 dark:border-red-600"
                   >
                     <Trash2 className="w-4 h-4 mr-2" /> Remove
                   </Button>
@@ -169,18 +168,18 @@ function ResumeUpload({ onUpload, onClose }: Props) {
           </div>
 
           {error && (
-            <div className="text-sm text-red-400 bg-red-900/30 border border-red-700 rounded-md px-3 py-2">
+            <div className="text-sm text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-md px-3 py-2">
               {error}
             </div>
           )}
 
           {/* Actions */}
-          <div className="flex gap-3 justify-end pt-4 border-t border-gray-700">
+          <div className="flex gap-3 justify-end pt-4 border-t border-gray-300 dark:border-gray-700">
             <Button
               type="button"
               onClick={onClose}
               variant="outline"
-              className="!border-gray-600 !hover:border-gray-500 !hover:text-gray-300"
+              className="!border-gray-400 dark:!border-gray-600 !hover:border-gray-500 dark:!hover:border-gray-500 !hover:text-gray-700 dark:!hover:text-gray-300"
               disabled={isProcessing}
             >
               Cancel

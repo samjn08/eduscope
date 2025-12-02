@@ -34,8 +34,8 @@ export default function PlacementTracker() {
     }
     setUser(data.user);
 
-    const applications = await getUserApplications();
-    setApplications(applications);
+    const apps = await getUserApplications();
+    setApplications(apps);
   };
 
   const handleSave = async (appData: Application) => {
@@ -58,14 +58,15 @@ export default function PlacementTracker() {
   };
 
   return (
-    <main className="flex flex-col bg-gray-900 text-gray-100 p-4 md:p-8 space-y-8">
+    <main className="flex flex-col bg-gray-100 text-gray-900 dark:bg-[#091222] dark:text-white p-4 md:p-8 space-y-8">
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-2">
-          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight text-gray-100">
+          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight">
             Placement Tracker
           </h1>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Track your job applications, follow-ups, and interview schedules
           </p>
         </div>
@@ -91,27 +92,32 @@ export default function PlacementTracker() {
             setEditingApp(null);
           }}
           userId={user.id}
-          
         />
       )}
 
       {/* View Toggle & Applications */}
-      <div className="bg-gray-600/10 border border-gray-700 rounded-xl shadow-sm">
+      <div className="bg-gray-50 dark:bg-[#0e182e] border border-gray-300 dark:border-[#1c293f] rounded-xl shadow-sm">
         <div className="p-6 pb-0">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <h2 className="text-lg font-semibold tracking-tight text-gray-100 flex items-center gap-2">
-              <Building className="w-5 h-5 text-gray-400" />
+            <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
+              <Building className="w-5 h-5 text-gray-500 dark:text-gray-400" />
               Your Applications ({applications.length})
             </h2>
-            
+
             {/* View Toggle */}
             <Tabs value={currentView} onValueChange={setCurrentView} className="w-auto">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-700 rounded-md p-1">
-                <TabsTrigger value="cards" className="flex items-center gap-2 text-gray-100 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md px-3 py-1">
+              <TabsList className="grid w-full grid-cols-2 bg-gray-200 dark:bg-[#1c293f] rounded-md p-1">
+                <TabsTrigger
+                  value="cards"
+                  className="flex items-center gap-2 text-gray-900 dark:text-gray-100 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md px-3 py-1"
+                >
                   <Grid3X3 className="w-4 h-4" />
                   Cards
                 </TabsTrigger>
-                <TabsTrigger value="table" className="flex items-center gap-2 text-gray-100 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md px-3 py-1">
+                <TabsTrigger
+                  value="table"
+                  className="flex items-center gap-2 text-gray-900 dark:text-gray-100 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md px-3 py-1"
+                >
                   <List className="w-4 h-4" />
                   Table
                 </TabsTrigger>
@@ -123,15 +129,15 @@ export default function PlacementTracker() {
         <div className="p-6 pt-6">
           <Tabs value={currentView} onValueChange={setCurrentView}>
             <TabsContent value="cards" className="mt-0">
-              <ApplicationList 
+              <ApplicationList
                 applications={applications}
                 onEdit={handleEdit}
                 onUpdate={loadData}
               />
             </TabsContent>
-            
+
             <TabsContent value="table" className="mt-0">
-              <ApplicationTable 
+              <ApplicationTable
                 applications={applications}
                 onEdit={handleEdit}
                 onUpdate={loadData}

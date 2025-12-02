@@ -12,57 +12,62 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       description: "AI-generated questions tailored to your level",
       icon: Brain,
       url: "/mock-tests",
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#4d8aff]",
-      iconColor: "text-[#4d8aff]"
+      iconColor: "text-blue-400 dark:text-blue-300",
     },
     {
       title: "Manage Resume",
       description: "Upload and get ATS compatibility scores",
       icon: FileUser,
       url: "/resume-manager",
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#22c55e]",
-      iconColor: "text-[#22c55e]"
+      iconColor: "text-green-400 dark:text-green-300",
     },
     {
       title: "Track Applications",
       description: "Monitor your job application progress",
       icon: Briefcase,
       url: "/placement-tracker",
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#a855f7]",
-      iconColor: "text-[#a855f7]"
-    }
+      iconColor: "text-purple-400 dark:text-purple-300",
+    },
   ];
 
   return (
     <div className="space-y-6">
+      
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-white mb-2">Quick Actions</h2>
-        <p className="text-gray-400">Jump into your preparation journey</p>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+          Quick Actions
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          Jump into your preparation journey
+        </p>
       </div>
 
       {/* Action Cards */}
       <div className="grid md:grid-cols-3 gap-6">
         {actions.map((action) => (
           <Link key={action.title} href={action.url} className="group">
-            <Card className="bg-[#0e182e] border border-[#1c293f] shadow-xl hover:shadow-lg transition-all duration-300 h-full">
+            <Card className="bg-white dark:bg-[#0f172a] border border-gray-200 dark:border-gray-700/50 hover:border-gray-400 dark:hover:border-gray-500 transition-all duration-300 shadow-md hover:shadow-xl">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className={`w-14 h-14 rounded-xl ring-1 flex items-center justify-center ${action.bgColor} ${action.ringColor}`}>
+                  
+                  {/* Icon */}
+                  <div className="w-14 h-14 rounded-xl bg-gray-100 dark:bg-[#1e293b] flex items-center justify-center shadow-inner">
                     <action.icon className={`w-7 h-7 ${action.iconColor}`} />
                   </div>
+
+                  {/* Text */}
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                       {action.title}
                     </h3>
-                    <p className="text-sm text-gray-400 mb-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                       {action.description}
                     </p>
                   </div>
-                  <div className="flex items-center text-sm font-medium text-gray-400 group-hover:text-white transition-colors">
+
+                  {/* Call to Action */}
+                  <div className="flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors">
                     Get Started
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
                   </div>
@@ -74,51 +79,43 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       </div>
 
       {/* Pro Upgrade Card */}
-{userType !== 'pro' && (
-  <div className="flex justify-center">
-    <Card className="bg-[#0e182e] border border-[#1c293f] shadow-xl hover:shadow-2xl transition-shadow duration-300 w-full">
-      <CardContent className="p-6 text-center space-y-6 flex flex-col items-center">
-        {/* Header Icon */}
+      {userType !== "pro" && (
         <div className="flex justify-center">
-          <div className="w-16 h-16 bg-gradient-to-tr from-[#4d8aff]/40 to-[#22c55e]/40 rounded-full flex items-center justify-center shadow-lg ring-1 ring-[#4d8aff]">
-            <Target className="w-7 h-7 text-white" />
-          </div>
+          <Card className="bg-white dark:bg-[#0f172a] border border-gray-200 dark:border-gray-700/50 shadow-md hover:shadow-2xl transition-all duration-300 w-full">
+            <CardContent className="p-6 text-center space-y-6 flex flex-col items-center">
+
+              {/* Icon */}
+              <div className="w-16 h-16 bg-gradient-to-tr from-blue-400/20 to-green-400/20 rounded-full flex items-center justify-center shadow-lg ring-1 ring-blue-400/40 dark:ring-blue-300/30">
+                <Target className="w-7 h-7 text-gray-900 dark:text-white" />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white tracking-wide">
+                Unlock Pro Features
+              </h3>
+
+              {/* Features List */}
+              <div className="grid md:grid-cols-3 gap-10 text-sm text-gray-700 dark:text-gray-300 text-center">
+                <div className="flex items-center gap-2 justify-center">
+                  <Zap className="w-4 h-4 text-blue-400" /> Unlimited AI Tests
+                </div>
+                <div className="flex items-center gap-2 justify-center">
+                  <Zap className="w-4 h-4 text-green-400" /> Advanced Analytics
+                </div>
+                <div className="flex items-center gap-2 justify-center">
+                  <Zap className="w-4 h-4 text-purple-400" /> Premium Content
+                </div>
+              </div>
+
+              {/* Button */}
+              <Button className="bg-gradient-to-r from-blue-500 to-green-500 hover:opacity-90 text-white font-semibold rounded-lg shadow-lg flex items-center gap-2 px-8 py-3 transition-transform duration-200 hover:scale-105">
+                <Zap className="w-5 h-5" />
+                Upgrade Now
+              </Button>
+            </CardContent>
+          </Card>
         </div>
-
-        {/* Title */}
-        <h3 className="text-2xl font-bold text-white tracking-wide text-center">
-          Unlock Pro Features
-        </h3>
-
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-10 text-sm text-gray-300 text-center">
-          <div className="flex flex-col items-center gap-1 md:flex-row">
-            <Zap className="w-4 h-4 text-[#4d8aff]" />
-            Unlimited AI Tests
-          </div>
-          <div className="flex flex-col items-center gap-1 md:flex-row">
-            <Zap className="w-4 h-4 text-[#22c55e]" />
-            Advanced Analytics
-          </div>
-          <div className="flex flex-col items-center gap-1 md:flex-row">
-            <Zap className="w-4 h-4 text-[#a855f7]" />
-            Premium Content
-          </div>
-        </div>
-
-        {/* Upgrade Button */}
-        <div className="flex justify-center w-full">
-          <Button className="bg-gradient-to-r from-[#4d8aff] to-[#22c55e] hover:from-[#3c6dd6] hover:to-[#16a34a] text-white font-semibold rounded-lg shadow-lg flex items-center justify-center gap-2 px-6 py-3 transition-transform duration-200 hover:scale-105">
-            <Zap className="w-5 h-5" />
-            Upgrade Now
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-)}
-
-
+      )}
     </div>
   );
 }

@@ -17,68 +17,75 @@ export default function DashboardStats({ stats }: { stats: Stats }) {
       title: "Tests Taken",
       value: stats.totalTests || 0,
       icon: Brain,
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#4d8aff]",
-      iconColor: "text-[#4d8aff]",
+      accent: "blue"
     },
     {
       title: "Average Score",
       value: `${stats.avgScore || 0}%`,
       icon: Trophy,
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#facc15]",
-      iconColor: "text-[#facc15]",
+      accent: "amber"
     },
     {
       title: "Resumes",
       value: stats.totalResumes || 0,
       icon: FileUser,
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#22c55e]",
-      iconColor: "text-[#22c55e]",
+      accent: "green"
     },
     {
       title: "Applications",
       value: stats.totalApplications || 0,
       icon: Briefcase,
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#a855f7]",
-      iconColor: "text-[#a855f7]",
+      accent: "purple"
     },
     {
       title: "Completed",
       value: stats.completedTests || 0,
       icon: Target,
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#6366f1]",
-      iconColor: "text-[#6366f1]",
+      accent: "indigo"
     },
     {
       title: "Follow-ups",
       value: stats.pendingFollowups || 0,
       icon: Clock,
-      bgColor: "bg-[#0c1426]",
-      ringColor: "ring-[#ef4444]",
-      iconColor: "text-[#ef4444]",
-    },
+      accent: "red"
+    }
   ];
+
+  const accentMap: Record<string, string> = {
+    blue: "text-blue-500 dark:text-blue-300 ring-blue-400/40 bg-blue-500/10",
+    amber: "text-amber-500 dark:text-amber-300 ring-amber-400/40 bg-amber-500/10",
+    green: "text-green-500 dark:text-green-300 ring-green-400/40 bg-green-500/10",
+    purple: "text-purple-500 dark:text-purple-300 ring-purple-400/40 bg-purple-500/10",
+    indigo: "text-indigo-500 dark:text-indigo-300 ring-indigo-400/40 bg-indigo-500/10",
+    red: "text-red-500 dark:text-red-300 ring-red-400/40 bg-red-500/10",
+  };
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       {statItems.map((stat) => (
         <Card
           key={stat.title}
-          className="bg-[#0e182e] border border-[#1c293f] shadow-xl hover:shadow-lg transition-shadow duration-200"
+          className="bg-white dark:bg-[#0f172a] border border-gray-300 dark:border-gray-700/40 shadow-sm hover:shadow-lg transition-all duration-300"
         >
           <CardContent className="p-4">
             <div className="flex flex-col items-center text-center space-y-2">
+              
+              {/* Icon Badge */}
               <div
-                className={`w-10 h-10 rounded-lg ring-1 flex items-center justify-center ${stat.bgColor} ${stat.ringColor}`}
+                className={`w-10 h-10 rounded-lg ring-1 flex items-center justify-center ${accentMap[stat.accent]}`}
               >
-                <stat.icon className={`w-5 h-5 ${stat.iconColor}`} />
+                <stat.icon className="w-5 h-5" />
               </div>
-              <div className="text-2xl font-semibold text-white">{stat.value}</div>
-              <div className="text-xs font-medium text-gray-400">{stat.title}</div>
+
+              {/* Value */}
+              <div className="text-2xl font-semibold text-gray-900 dark:text-white">
+                {stat.value}
+              </div>
+
+              {/* Label */}
+              <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                {stat.title}
+              </div>
             </div>
           </CardContent>
         </Card>

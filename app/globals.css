@@ -1,3 +1,7 @@
+html {
+  color-scheme: light dark;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 

@@ -56,14 +56,21 @@ export default function TestCreator({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md shadow-2xl bg-[#0f1320] border border-gray-800">
-        <CardHeader className="pb-4 border-b border-gray-700">
+      <Card className="w-full max-w-md shadow-2xl 
+        bg-white dark:bg-[#121a2c] 
+        border border-gray-200 dark:border-[#273347]"
+      >
+        <CardHeader className="pb-4 border-b 
+          border-gray-300 dark:border-gray-700"
+        >
           <div className="flex justify-between items-center">
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Brain className="w-5 h-5 text-purple-400" />
+            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+              <Brain className="w-5 h-5 text-purple-500" />
               Create Mock Test
             </CardTitle>
-            <Button onClick={onClose} variant="ghost" size="sm" className="text-gray-300 hover:text-white">
+            <Button onClick={onClose} variant="ghost" size="sm"
+              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            >
               <X className="w-4 h-4" />
             </Button>
           </div>
@@ -72,15 +79,17 @@ export default function TestCreator({
         <CardContent className="space-y-6">
           {/* Subject */}
           <div>
-            <Label className="text-sm font-medium text-gray-300 mb-2 block">Subject</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+              Subject
+            </Label>
             <Select
               value={config.subject}
               onValueChange={(value) => setConfig({ ...config, subject: value as Subject })}
             >
-              <SelectTrigger className="bg-gray-800 text-white border-gray-700">
+              <SelectTrigger className="bg-gray-100 dark:bg-[#1a2338] text-gray-900 dark:text-white border border-gray-300 dark:border-[#2f3c52]">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 text-white border-gray-700">
+              <SelectContent className="bg-white dark:bg-[#1a2338] text-gray-900 dark:text-white border border-gray-300 dark:border-[#2f3c52]">
                 {subjects.map((subject) => (
                   <SelectItem key={subject.value} value={subject.value}>
                     {subject.label}
@@ -92,14 +101,16 @@ export default function TestCreator({
 
           {/* Difficulty */}
           <div>
-            <Label className="text-sm font-medium text-gray-300 mb-2 block">Difficulty Level</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+              Difficulty Level
+            </Label>
             <div className="grid grid-cols-3 gap-2">
               {difficulties.map((diff) => (
                 <Button
                   key={diff.value}
                   onClick={() => setConfig({ ...config, difficulty: diff.value })}
                   variant={config.difficulty === diff.value ? "default" : "outline"}
-                  className={`${config.difficulty === diff.value ? diff.color : 'text-gray-300 hover:bg-gray-700'} transition-all duration-200`}
+                  className={`${config.difficulty === diff.value ? diff.color : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#263250]'} transition-all duration-200`}
                 >
                   {diff.label}
                 </Button>
@@ -110,23 +121,28 @@ export default function TestCreator({
           {/* Questions & Duration */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm font-medium text-gray-300 mb-2 block">Questions</Label>
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                Questions
+              </Label>
               <Input
                 type="number"
                 value={config.total_questions}
                 onChange={(e) => setConfig({ ...config, total_questions: parseInt(e.target.value) })}
-                className="text-center bg-gray-800 text-white border-gray-700"
+                className="text-center bg-gray-100 dark:bg-[#1a2338] text-gray-900 dark:text-white border border-gray-300 dark:border-[#2f3c52]"
                 min={5}
                 max={userType === 'pro' ? 100 : 20}
               />
             </div>
+
             <div>
-              <Label className="text-sm font-medium text-gray-300 mb-2 block">Duration (min)</Label>
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                Duration (min)
+              </Label>
               <Input
                 type="number"
                 value={config.duration_minutes}
                 onChange={(e) => setConfig({ ...config, duration_minutes: parseInt(e.target.value) })}
-                className="text-center bg-gray-800 text-white border-gray-700"
+                className="text-center bg-gray-100 dark:bg-[#1a2338] text-gray-900 dark:text-white border border-gray-300 dark:border-[#2f3c52]"
                 min={15}
                 max={180}
               />
@@ -135,9 +151,9 @@ export default function TestCreator({
 
           {/* Pro Feature Warning */}
           {userType !== 'pro' && config.total_questions > 20 && (
-            <div className="bg-amber-800/20 border border-amber-600 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5" />
-              <div className="text-sm text-amber-200">
+            <div className="bg-amber-100 dark:bg-amber-900/20 border border-amber-400 dark:border-amber-600 rounded-lg p-3 flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5" />
+              <div className="text-sm text-amber-700 dark:text-amber-200">
                 <strong>Pro Feature:</strong> More than 20 questions requires a Pro subscription.
               </div>
             </div>
