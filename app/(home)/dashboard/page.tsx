@@ -111,37 +111,19 @@ export default function Dashboard() {
 
           {/* Mini Stats */}
           <div className="flex gap-6 md:gap-4 mt-2 md:mt-0">
-            {/* Tests Completed */}
-            <div className="flex flex-col items-center justify-center px-8 py-4 bg-gray-100 dark:bg-[#132040] rounded-xl shadow-sm">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Tests Completed</p>
-              {stats ? (
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">{stats.completedTests}</p>
-              ) : (
-                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
-              )}
-              <Link
+            <Link
                 href="/mock-tests"
-                className="mt-2 px-3 py-1 rounded-[10px] text-sm font-medium bg-blue-100 dark:bg-[#1f2a4c] text-{#4c80ff} dark:text-[#87aaff] hover:bg-blue-200 dark:hover:bg-[#28365b] transition"
+                className="px-4 py-2 rounded-[10px] text-sm font-medium bg-blue-100 dark:bg-[#1f2a4c] text-{#4c80ff} dark:text-[#87aaff] hover:bg-blue-200 dark:hover:bg-[#28365b] transition"
               >
                 View Tests
               </Link>
-            </div>
 
-            {/* Applications Sent */}
-            <div className="flex flex-col items-center justify-center px-8 py-4 bg-gray-100 dark:bg-[#132040] rounded-xl shadow-sm">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Applications Sent</p>
-              {stats ? (
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">{stats.totalApplications}</p>
-              ) : (
-                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
-              )}
-              <Link
+            <Link
                 href="/placement-tracker"
-                className="mt-2 px-3 py-1 rounded-[10px] text-sm font-medium bg-blue-100 dark:bg-[#1f2a4c] text-{#4c80ff} dark:text-[#87aaff] hover:bg-blue-200 dark:hover:bg-[#28365b] transition"
+                className="px-4 py-2 rounded-[10px] text-sm font-medium bg-blue-100 dark:bg-[#1f2a4c] text-{#4c80ff} dark:text-[#87aaff] hover:bg-blue-200 dark:hover:bg-[#28365b] transition"
               >
                 View Applications
               </Link>
-            </div>
           </div>
         </div>
       </div>
