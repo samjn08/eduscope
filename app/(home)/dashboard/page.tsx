@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Briefcase, Trophy, Crown } from "lucide-react";
-
+import Link from "next/link";
 import DashboardStats, { Stats } from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickActions from "@/components/dashboard/QuickActions";
@@ -20,9 +20,9 @@ function SkeletonCard({ height = 20, width = 'full', className = '' }) {
   );
 }
 
-function SkeletonGrid({ count = 3 }) {
+function SkeletonGrid({ count = 3, columns = 3 }) {
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className={`grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-${columns} lg:grid-cols-${columns}`}>
       {Array.from({ length: count }).map((_, idx) => (
         <SkeletonCard key={idx} height={150} className="p-6" />
       ))}
@@ -90,30 +90,60 @@ export default function Dashboard() {
 </div>
 
 
-      {/* User Card */}
+   {/* User Card */}
 {user ? (
-  <Card className="shadow-xl border border-gray-200 dark:border-[#1c293f] bg-white dark:bg-[#0e182e] rounded-2xl transition-colors">
+  <Card className="shadow-xl p-0 border border-gray-200 dark:border-[#1c293f] bg-white dark:bg-[#0e182e] rounded-2xl transition-colors">
     <CardContent className="p-6 md:p-8">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        
-        {/* User Info */}
-        <div className="flex-1 space-y-3">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-snug">
-            Welcome back, <span className="text-[#4d8aff]">Samarth!</span>
-          </h2>
-          <p className="inline-block text-sm md:text-base text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-[#132040] px-4 py-2 rounded-xl font-medium tracking-wide shadow-sm">
-            CSE • 2026 • GGSIPU
-          </p>
+
+        {/* User Info + Mini Stats */}
+        <div className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+          {/* User Info */}
+          <div className="space-y-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-snug">
+              Welcome back, <span className="text-[#4d8aff]">Samarth!</span>
+            </h2>
+            <p className="inline-block text-sm md:text-base text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-[#132040] px-4 py-2 rounded-xl font-medium tracking-wide shadow-sm">
+              CSE • 2026 • GGSIPU
+            </p>
+          </div>
+
+          {/* Mini Stats */}
+          <div className="flex gap-6 md:gap-4 mt-2 md:mt-0">
+            {/* Tests Completed */}
+            <div className="flex flex-col items-center justify-center px-8 py-4 bg-gray-100 dark:bg-[#132040] rounded-xl shadow-sm">
+              <p className="text-sm text-gray-500 dark:text-gray-400">Tests Completed</p>
+              {stats ? (
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">{stats.completedTests}</p>
+              ) : (
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+              )}
+              <Link
+                href="/mock-tests"
+                className="mt-2 px-3 py-1 rounded-[10px] text-sm font-medium bg-blue-100 dark:bg-[#1f2a4c] text-{#4c80ff} dark:text-[#87aaff] hover:bg-blue-200 dark:hover:bg-[#28365b] transition"
+              >
+                View Tests
+              </Link>
+            </div>
+
+            {/* Applications Sent */}
+            <div className="flex flex-col items-center justify-center px-8 py-4 bg-gray-100 dark:bg-[#132040] rounded-xl shadow-sm">
+              <p className="text-sm text-gray-500 dark:text-gray-400">Applications Sent</p>
+              {stats ? (
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">{stats.totalApplications}</p>
+              ) : (
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+              )}
+              <Link
+                href="/placement-tracker"
+                className="mt-2 px-3 py-1 rounded-[10px] text-sm font-medium bg-blue-100 dark:bg-[#1f2a4c] text-{#4c80ff} dark:text-[#87aaff] hover:bg-blue-200 dark:hover:bg-[#28365b] transition"
+              >
+                View Applications
+              </Link>
+            </div>
+          </div>
         </div>
-
-        {/* Upgrade Button */}
-        {user.subscription !== "pro" && (
-          <Button className="bg-gradient-to-r from-[#4d8aff] to-[#22c55e] hover:from-[#3c6dd6] hover:to-[#16a34a] text-white font-semibold rounded-xl shadow-lg flex items-center gap-3 px-6 py-3 transition-transform hover:scale-105 hover:shadow-2xl">
-            <Crown className="w-5 h-5" />
-            Upgrade to Pro
-          </Button>
-        )}
-
       </div>
     </CardContent>
   </Card>
@@ -122,11 +152,15 @@ export default function Dashboard() {
 )}
 
 
+
+
+
+
       {/* Quick Actions */}
       {user ? <QuickActions userType={user.subscription} /> : <SkeletonGrid count={2} />}
 
       {/* Stats */}
-      {stats ? <DashboardStats stats={stats} /> : <SkeletonGrid count={3} />}
+      {stats ? <DashboardStats stats={stats} /> : <SkeletonGrid count={6} columns={6} />}
 
       {/* Recent Data */}
       <div className="grid lg:grid-cols-2 gap-6">
@@ -140,7 +174,7 @@ export default function Dashboard() {
             className="shadow-lg bg-white dark:bg-[#0e182e] border-gray-300 dark:border-[#1c293f]"
           />
         ) : (
-          <SkeletonGrid count={1} />
+          <SkeletonGrid count={1} columns={1} />
         )}
 
         {recentApps ? (
@@ -153,7 +187,7 @@ export default function Dashboard() {
             className="shadow-lg bg-white dark:bg-[#0e182e] border-gray-300 dark:border-[#1c293f]"
           />
         ) : (
-          <SkeletonGrid count={1} />
+          <SkeletonGrid count={1} columns={1} />
         )}
       </div>
     </div>

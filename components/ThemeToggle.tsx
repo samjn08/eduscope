@@ -13,13 +13,30 @@ export function ThemeToggle() {
   if (!mounted) return null;
 
   return (
-    <Button 
-      variant="ghost"
-      className="w-full flex justify-center mt-4"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    >
-      {theme === "dark" ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-700" />}
-      <span className="ml-2 text-sm">{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
-    </Button>
+   <Button
+  className={`
+    mx-auto flex items-center justify-center gap-2 mt-4
+    px-4 py-2 rounded-xl transition-all group active:scale-[0.98]
+    bg-transparent border
+
+    ${theme === "dark"
+      ? "text-white border-slate-600 hover:bg-slate-700"
+      : "text-zinc-900 border-zinc-300 hover:bg-zinc-200"}
+  `}
+  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+>
+  {theme === "dark" ? (
+    <Sun className="w-5 h-5 text-yellow-400 transition-all duration-300 group-hover:rotate-90" />
+  ) : (
+    <Moon className="w-5 h-5 text-slate-700 transition-all duration-300 group-hover:rotate-0" />
+  )}
+
+  <span className="text-sm font-medium transition-opacity duration-300 group-hover:opacity-90">
+    {theme === "dark" ? "Light Mode" : "Dark Mode"}
+  </span>
+</Button>
+
+
+
   );
 }

@@ -151,7 +151,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           )}
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-2">
-            © 2025 EduScope for Students
+            © 2025 EduScope
           </p>
         </div>
       </div>
