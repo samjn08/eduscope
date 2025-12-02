@@ -153,9 +153,25 @@ export default function ApplicationForm({ application, onSave, onClose, userId }
             <div className="grid md:grid-cols-3 gap-4">
               {['status', 'applicationType', 'priority'].map((field) => {
                 let value, options, onChange;
-                if (field === 'status') { value = formData.status; options = statusOptions; onChange = (v: any) => setFormData({ ...formData, status: v }) }
-                if (field === 'applicationType') { value = formData.applicationType; options = ['internship', 'full_time', 'part_time', 'contract']; onChange = (v: any) => setFormData({ ...formData, applicationType: v }) }
-                if (field === 'priority') { value = formData.priority; options = ['low', 'medium', 'high']; onChange = (v: any) => setFormData({ ...formData, priority: v }) }
+                if (field === 'status') {
+  value = formData.status
+  options = statusOptions
+  onChange = (v: ApplicationStatus) => setFormData({ ...formData, status: v })
+}
+if (field === 'applicationType') {
+  value = formData.applicationType
+  options = ['internship', 'full_time', 'part_time', 'contract'] as const
+  options = [...options]
+  type AppType = (typeof options)[number]
+  onChange = (v: AppType) => setFormData({ ...formData, applicationType: v })
+}
+if (field === 'priority') {
+  value = formData.priority
+  options = ['low', 'medium', 'high'] as const
+  options = [...options]
+  type PriorityType = (typeof options)[number]
+  onChange = (v: PriorityType) => setFormData({ ...formData, priority: v })
+}
                 return (
                   <div className="space-y-2" key={field}>
                     <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
